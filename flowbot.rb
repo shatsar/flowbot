@@ -5,6 +5,7 @@ require 'em-http'
 require 'json'
 require 'handlers/base_handler'
 require 'handlers/deploy_handler'
+require 'handlers/printer_handler'
 
 $config_file_path = File.join(File.dirname(__FILE__), "flowbot.ini")
 
@@ -44,8 +45,6 @@ class FlowBot
   private
 
   def handle_message(msg)
-    # p msg['event']
-
     @handlers.each{
     |handler| handler.handle msg if handler.supports? msg['event']
     }
@@ -56,5 +55,8 @@ end
 config_file = ParseConfig.new($config_file_path)
 
 fb = FlowBot.new(config_file['token'], config_file['organization'], config_file['flow'])
+
+# decomment the following line to have see every received message
+#fb.register_handler PrinterHandler.new
 fb.register_handler DeployHandler.new
 fb.run
