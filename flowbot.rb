@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'parseconfig'
+require 'em/pure_ruby'
+$eventmachine_library = :pure_ruby
 require 'eventmachine'
 require 'em-http'
 require 'json'
